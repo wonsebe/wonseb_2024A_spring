@@ -1,19 +1,17 @@
-package example.day02.consolemvc;
+package example.day02.springwebmvc;
 
-import example.day02.consolemvc.view.PhoneView;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+@SpringBootApplication
 public class AppStart {
+
     public static void main(String[] args) {
-
-        PhoneView.getInstance().run();
-
-
-
-
-
-
-
+        SpringApplication.run(AppStart.class);
     }
+
+
+
 }
 /*
 

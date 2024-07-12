@@ -1,7 +1,6 @@
-package example.day02.consolemvc.model.dao;
+package example.day02.springwebmvc.model.dao;
 
-import example.day02.consolemvc.controller.PhoneController;
-import example.day02.consolemvc.model.dto.PhoneDto;
+import example.day02.springwebmvc.model.dto.PhoneDto;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,7 +15,7 @@ public class PhoneDao {
     private PhoneDao(){
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");  // com.mysql.cj.jdbc.Driver
-            conn = DriverManager.getConnection( "jdbc:mysql://localhost:3306/spingexample","root","1234" );
+            conn = DriverManager.getConnection( "jdbc:mysql://localhost:3306/springexample","root","1234" );
 
         }catch (Exception e){ System.out.println(e);
         }
