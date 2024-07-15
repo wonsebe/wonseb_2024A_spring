@@ -1,81 +1,101 @@
-console.log("todo.js");
+console.log('todo.js');
 
-get();
-function get(){
-    console.log("get()");
-    let todoBox = document.querySelector(`#todoBox`);           // 출력할 HTML의 div 부분의 id를 todoBox에 대입
-    let html = ``;
-    // 1. ajax 옵션객체 정의
-    let option = {
-        // url : "http://localhost:8080/example/rest3?key=qwe" ,   // 통신할 URL , 스프링 컨트롤러 매핑 주소
-        url : "/todo/print" ,    // IP와 PORT 생략
-        method : 'get' ,                 // 통신할 HTTP 메소드 선택
-        success : function(response){    // 통신 성공 시 응답받은 데이터
+//let todoList=["밥먹기, x"];
+//1달에는 JS 에서 메모리 관리 했지만 //3달에는 웹서버(->DB서버) 관리하기 때문에 필요없다.
+//할일 등록 함수
+function todocreate(){console.log('todocreate() load')
+    //HTML 입력받은 값 가져오기
+    let todoInput=document.querySelector('#todoInput');
+    console.log(todoInput);
+    
+    let tcontent=todoInput.value;
+    console.log(tcontent);
 
-            response.forEach(todo => {
-                if(todo.state == 0){                          // e == 'X'는 기본값으로 등록했을 때 화이트 박스가 나오게 하기 위함.
-                    html +=`<div id="whiteBox">
-                                <span> ${todo.content} </span>
-                                <div>
-                                    <button type="button" onclick="change(${todo.tno})">변경</button>
-                                    <button type="button" onclick="remove(${todo.tno})">삭제</button>
-                                </div>
-                            </div>`
-                }else if(todo.state == 1){
-                    html +=`<div id="blackBox">
-                                <span> ${todo.content} </span>
-                                <div>
-                                    <button type="button" onclick="change(${todo.tno})">변경</button>
-                                    <button type="button" onclick="remove(${todo.tno})">삭제</button>
-                                </div>
-                            </div>`
-                }
+
+    let ajaxoption= {
+        method: 'post', //HTTP 메소드 선택(GET, POST,PUT,DELETE)
+        url:'/todo/create?tcontent='+tcontent ,//HTTP 통신할 경로 작성(),다른건 생략
+        success: function response(result){ //HTTP 성공시 응답값을 함수의 매개변수로 받는다
+        console.log(result); //응답 결과 확인
+        if(result == true){alert('할일등록성공'); //성공안내
+            todoInput.value=''; //입력상자에 입력된 값 없애기.
+
+            todoreadall(); // 등록 성공시 할일 목록 전체 출력 함수 호출
+        }
+        else{alert('할일등록실패');} //실패안내
+        }//success e
+    }//옵션 e
+
+    //Ajax는 JQUERY 라이브러리 포함된 함수이다. $는 JQUERY의 문법이다.
+    $.ajax(ajaxoption);
+}
+//할일 목록 전체 출력, 실행조건: 1. JS 열렸을 때  2. 등록/삭제/수정 성공시
+//출력함수
+todoreadall();
+function todoreadall(){
+    $.ajax({
+        method: 'get',
+        url: '/todo/readall' , 
+        //data는 매개변수가 있을 때 만 하기
+        success: function response(result){ 
+            console.log(result); //결과받은 데이터의 타입은 Arraylist
+            let todoBox = document.querySelector(`#todoBox`);   console.log( todoBox );
+            // [2] 무엇을 
+           let html = ``;
+            //for(let i=0; i<result.length; i++){}
+            //2 리스트명.forEach{반복변수명 => {실행문}}
+            result.forEach(todoDto=>{
+                html += `<div id=${todoDto.tstate == 0? 'whiteBox':'blackBox'}>
+                        <span> ${todoDto.tcontent} </span>
+                        <div>
+                            <button type="button" onclick="todoupdate(${todoDto.tno})">변경</button>
+                            <button type="button" onclick="tododelete(${todoDto.tno})">삭제</button>
+                        </div>
+                    </div>`      
+
+                    console.log(html);
             });
-            todoBox.innerHTML = html;
-        }   // success end
-    // 2. ajax 메소드에 옵션 넣어서 실행
+             //출력
+             todoBox.innerHTML=html;
+           
+        }
+
+    }); //ajax e
+}//f e
+//수정함수
+function todoupdate(tno){
+$.ajax({
+    method: 'put' ,
+    url:`/todo/update?tno=${tno}` ,
+    //data:  ,
+    success: function response(result){ console.log(result);
+        if(result){
+            todoreadall(); //새로고침
+            }
+        else{alert('오류발생.관리자에게문의');}
+        
     }
-    $.ajax(option);
-}
 
-function post(){
-    console.log("post()");
-    let todoInput = document.querySelector("#todoInput").value;
-    $.ajax({
-        url : "/todo/save" , // HTTP 통신할 경로URL , 컨트롤러 매핑
-        method : 'post' ,                // HTTP 메소드
-        data : { "key" : todoInput } ,
-        success : function(response){    // HTTP 성공응답 , 컨트롤러가 return한 값
-            console.log(response);
-            alert('리스트 저장 성공');
-            get();
-        }
-    }); // ajax end
-}
+})//ajax e
 
-function change(tno){
-    console.log("change()");
-    $.ajax({
-        url : "/todo/update" , // HTTP 통신할 경로URL , 컨트롤러 매핑
-        method : 'put' ,                // HTTP 메소드
-        data : { "key" : tno } ,
-        success : function(response){    // HTTP 성공응답 , 컨트롤러가 return한 값
-            console.log(response);
-            alert('리스트 수정 성공');
-            get();
-        }
-    }); // ajax end
 }
-function remove(tno){
-    console.log("remove()");
+//삭제함수
+function tododelete(tno){
     $.ajax({
-        url : "/todo/delete" , // HTTP 통신할 경로URL , 컨트롤러 매핑
-        method : 'delete' ,                // HTTP 메소드
-        data : { "key" : tno } ,
-        success : function(response){    // HTTP 성공응답 , 컨트롤러가 return한 값
-            console.log(response);
-            alert('리스트 삭제 성공');
-            get();
+        method: 'delete' ,
+        url:`/todo/delete` ,
+        data: {'tno' : tno} ,
+        success : result =>{
+            if(result){
+                todoreadall(); //새로고침
+                }
+            else{alert('오류발생.관리자에게문의');}
+            
+        //success:function(result){}
+        //success: function response(result){ console.log(result);
+       
         }
-    }); // ajax end
+    
+    })//ajax e
+
 }

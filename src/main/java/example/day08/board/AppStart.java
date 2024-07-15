@@ -1,4 +1,4 @@
-package example.day07.todo;
+package example.day08.board;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

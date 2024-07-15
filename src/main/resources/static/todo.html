@@ -1,13 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Page Title</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-  
-
-
+    <meta charset="UTF-8">
+    <title>Title</title>
     <style>
         body{
             display: block;
@@ -18,7 +13,7 @@
             width: 200px;
             font-size: 20px;
             font-weight: bold;
-            display: flex;
+            display: flex; 
             justify-content: space-between;
             border: 1px solid black;
             margin: 20px auto;
@@ -34,15 +29,19 @@
 
 </head>
 <body>
+    <!-- http://localhost:8080/todo.html ,  http://192.168.30.9:8080/todo.html  -->
+    <h3> My to do List</h3>
+    <input id="todoInput" />
+    <button onclick="todocreate()" type="button">등록</button>
+    <div id="todoBox">
 
-<h3> My to do List</h3>
-<input id="todoInput" /><button onclick="post()" type="button">등록</button>
-<div id="todoBox">
+    </div>
 
-</div>
-
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script src='todo.js'></script>
+    <!-- JQUERY 라이브러리(AJAX포함) 호출 -->
+    <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+    
+    <!-- JS 호출 -->
+    <script src="todo.js"></script>
 
 </body>
 </html>
