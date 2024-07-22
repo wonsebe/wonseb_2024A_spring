@@ -58,8 +58,8 @@ $.ajax({
   tableBody.innerHTML = html;
   }
 
-
-});
+ 
+}); printAll();
 }
 //개별출력
 function print(bno){
