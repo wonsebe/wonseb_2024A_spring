@@ -68,6 +68,11 @@ public class MemberService {
         return memberDao.mMyInfo( loginMno );
     }
 
+    //6. 아이디 중복검사
+    public  boolean mIdCheck(String id){
+        return  memberDao.mIdCheck(id);
+    }
+
 } // class end
 
 
