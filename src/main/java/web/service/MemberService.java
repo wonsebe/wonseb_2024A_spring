@@ -73,6 +73,30 @@ public class MemberService {
         return  memberDao.mIdCheck(id);
     }
 
+    //7. 수정페이지
+    public  boolean update(MemberDto memberDto){
+        return  memberDao.update(memberDto);
+    }
+    //8. 삭제 페이지
+    public  boolean delete(String  pwConfirm){
+        //현재 탈퇴하는 회원의 로그인된 번호
+            //1. 로그인 세션 객체 호출
+        Object object=request.getSession().getAttribute("loginDto");
+            //2.
+        if (object == null)return false;
+        //3. 로그인 세션객체내 로그인 정보를 타입벼환
+        MemberDto loginDto = (MemberDto) object; //타입변환
+        //4. 로그인정보에서 회우너번호만 추출
+        int loginNo= loginDto.getNo();
+        //5. Dao에게 전달
+        boolean result= memberDao.delete(loginNo,pwConfirm);
+        //6만약 성공시 로그아웃
+        if (result){mLogout();}
+        return result;
+    }
+
+
+
 } // class end
 
 

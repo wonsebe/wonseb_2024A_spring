@@ -27,4 +27,14 @@ public class ViewController {
     public String mMyPage(){
         return "/member/myinfo.html";
     }
+    @GetMapping("/member/update")
+    public String update(){
+        return "/member/update.html";
+    }
+    @GetMapping("/member/leave")
+    public String  delete(){
+        return "/member/leave.html";
+    }
+
+
 }

@@ -2,10 +2,7 @@ package web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import web.model.dto.MemberDto;
 import web.service.MemberService;
 
@@ -49,9 +46,26 @@ public class MemberController {
     public MemberDto mMyInfo( ){ return memberService.mMyInfo(); }
 
     //아이디 중복검사
-    @GetMapping("/idCheck")
+    @GetMapping("/idcheck")
     public boolean mIdCheck(String id){
         return memberService.mIdCheck(id);
     }
+
+    //수정 페이지
+    @PutMapping("/update")
+    public  boolean update(MemberDto memberDto){
+    return memberService.update(memberDto);
+    }
+
+    //탈퇴 페이지
+    @DeleteMapping("/leave")
+    public  boolean  delete(String  pwConfirm){
+        return  memberService.delete(pwConfirm);
+
+
+    }
+
+
+
 
 }

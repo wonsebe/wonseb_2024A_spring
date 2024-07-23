@@ -10,9 +10,13 @@
 마이 페이지
 <div id="myInfoBox">
 
-</div>
-<script src="/js/member/myinfo.js"></script>
 
+</div>
+<button type="button" onclick="location.href='/member/update'">정보수정</button>
+<button type="button" onclick="location.href='/member/leave'">탈퇴</button>
+
+
+<script src="/js/member/myinfo.js"></script>
 <div th:replace="~{ /footer.html :: footer }"></div>
 
 </body>

@@ -86,4 +86,38 @@ public class MemberDao extends Dao {
         }
         return false;
     }
+
+    //
+    public boolean update(MemberDto memberDto){
+        System.out.println("MemberDao.update");
+        System.out.println("memberDto = " + memberDto);
+        try {
+            String sql ="update member set name= ? , pw= ? , phone= ? where no=?";
+            PreparedStatement ps= conn.prepareStatement(sql);
+            ps.setString(1,memberDto.getName());
+            ps.setString(2,memberDto.getPw());
+            ps.setString(3,memberDto.getPhone());
+            ps.setInt(4,memberDto.getNo());
+            int count =ps.executeUpdate();
+            if (count==1) return true;
+        }catch (Exception e){
+            System.out.println("e = " + e);
+        }
+        return false;
+    }
+
+    //8삭제
+    public  boolean delete(int loginNo, String pwConfirm){
+        try {
+            String sql =" delete from member where no = ? and pw =?";
+            PreparedStatement ps= conn.prepareStatement(sql);
+            ps.setInt(1,loginNo);
+            ps.setString(2, pwConfirm);
+            int count =ps.executeUpdate();
+            if (count ==1)return true;
+        }catch (Exception e){
+            System.out.println("e = " + e);
+        }
+return false;
+    }
 }
