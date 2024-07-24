@@ -16,11 +16,12 @@ public class BoardDao extends Dao {
     //글쓰기
     public boolean post(Map<String , String> map){
         try{
-            String sql = "insert into board(btitle, bcontent, bcno) values(?,?,?)";
+            String sql = "insert into board(btitle, bcontent, bcno,no) values(?,?,?,?)";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1,map.get("btitle"));
             ps.setString(2,map.get("bcontent"));
             ps.setString(3,map.get("bcno"));
+            ps.setInt(4,Integer.parseInt(map.get("no")));
 
             int count = ps.executeUpdate();
             if(count == 1){
