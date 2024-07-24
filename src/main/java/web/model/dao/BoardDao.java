@@ -6,6 +6,7 @@ import web.model.dto.BoardDto;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Random;
 
 @Component
@@ -13,6 +14,24 @@ public class BoardDao extends Dao {
 
 
     //글쓰기
+    public boolean post(Map<String , String> map){
+        try{
+            String sql = "insert into board(btitle, bcontent, bcno) values(?,?,?)";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1,map.get("btitle"));
+            ps.setString(2,map.get("bcontent"));
+            ps.setString(3,map.get("bcno"));
+
+            int count = ps.executeUpdate();
+            if(count == 1){
+                return true;
+            }
+
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return false;
+    }
 
     //글 전체 호출
     public ArrayList<BoardDto> all(){
@@ -42,6 +61,7 @@ public class BoardDao extends Dao {
         return list;
     }
     //글 상세 호출
+
 
     //글 수정
 

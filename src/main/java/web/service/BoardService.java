@@ -8,6 +8,7 @@ import web.model.dao.MemberDao;
 import web.model.dto.BoardDto;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 @Service
 public class BoardService {
@@ -16,6 +17,9 @@ public class BoardService {
     BoardDao boardDao;
 
     //글쓰기
+    public boolean post(Map<String , String> map){
+        return boardDao.post(map);
+    }
 
     //글 전체 호출
     public ArrayList<BoardDto> all(){
