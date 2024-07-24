@@ -49,5 +49,9 @@ public class ViewController {
     public String boardDetail(){
         return "/board/detail.html";
     }
+    @GetMapping("/board/update")
+    public String boardUpdate(){
+        return "/board/update.html";
+    }
 
 }
