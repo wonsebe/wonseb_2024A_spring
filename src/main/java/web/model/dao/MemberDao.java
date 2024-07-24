@@ -5,6 +5,7 @@ import web.model.dto.MemberDto;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Map;
 
 @Component
 public class MemberDao extends Dao {
@@ -87,24 +88,44 @@ public class MemberDao extends Dao {
         return false;
     }
 
-    //
-    public boolean update(MemberDto memberDto){
-        System.out.println("MemberDao.update");
-        System.out.println("memberDto = " + memberDto);
-        try {
-            String sql ="update member set name= ? , pw= ? , phone= ? where no=?";
-            PreparedStatement ps= conn.prepareStatement(sql);
-            ps.setString(1,memberDto.getName());
-            ps.setString(2,memberDto.getPw());
-            ps.setString(3,memberDto.getPhone());
-            ps.setInt(4,memberDto.getNo());
-            int count =ps.executeUpdate();
-            if (count==1) return true;
-        }catch (Exception e){
-            System.out.println("e = " + e);
-        }
+
+    public boolean update( Map<String , String> map ){
+        try{
+            String sql = "update member " +
+                    " set name = ? , pw = ? , phone = ? " +
+                    " where no = ? and pw = ? ";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString( 1 , map.get("name") );
+            ps.setString( 2 , map.get("newPw") );
+            ps.setString( 3 , map.get("phone") );
+            ps.setInt( 4 , Integer.parseInt( map.get("no") ) );
+            ps.setString( 5 , map.get("pw") );
+            int count = ps.executeUpdate();
+            if( count == 1 ) { return true; }
+        }catch (Exception e ){ System.out.println(e); }
         return false;
     }
+    //
+
+//    public boolean update(MemberDto memberDto , int loginNo){
+//        System.out.println("MemberDao.update");
+//        System.out.println("memberDto = " + memberDto);
+//        try {
+//            String sql ="update member set name= ? , Newpw= ? , phone= ? where no=? pw = ?";
+//            PreparedStatement ps= conn.prepareStatement(sql);
+//            ps.setString(1,memberDto.getName());
+//            ps.setString(2,memberDto.getNewpw());
+//            ps.setString(3,memberDto.getPhone());
+//            ps.setInt(4,loginNo);
+//            ps.setString(5,memberDto.getPw());
+//
+//            int count =ps.executeUpdate();
+//            if (count==1) return true;
+//        }catch (Exception e){
+//            System.out.println("e = " + e);
+//        }
+//        return false;
+//    }
 
     //8삭제
     public  boolean delete(int loginNo, String pwConfirm){

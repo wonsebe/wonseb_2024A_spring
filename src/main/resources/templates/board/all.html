@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <div class="container">
+        <div id="header">
+            <nav class="navbar navbar-expand-lg">
+                <div class="container-fluid">
+
+                    <a class="navbar-brand" href="index.html">더조은웹</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+
+                           
+                            <li class="nav-item"><a class="nav-link" href="board.html">게시판</a> </li>
+                            <li class="nav-item"><a class="nav-link" href="#">제품목록</a> </li>
+                            <li class="nav-item"><a class="nav-link" href="#">제품등록</a> </li>
+              
+                          </ul>
+
+                    </div>
+                </div>
+            </nav>
+        </div>
+         <div id="main">
+            <h3>게시물 전체 출력</h3>
+            <a href="write.html">글쓰기</a>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>번호</th> <th>제목</th> <th>작성자</th> <th>작성일</th> <th>조회수</th>
+                    </tr>
+                </thead>
+                <tbody id="boardTbody">
+                    <tr>
+                        <th>1</th> <th>안녕</th> <th>원세빈</th> <th>2024-06-04</th> <th>3</th>
+                    </tr>
+                    <tr>
+                        <th>2</th> <th>안녕</th> <th>원세빈</th> <th>2024-06-04</th> <th>3</th>
+                    </tr>
+                </tbody>
+            </table>
+        
+        </div>
+
+
+        <script src="/js/member/update.js"></script>
+<div th:replace="~{ /footer.html :: footer }"></div>
+</body>
+</html>

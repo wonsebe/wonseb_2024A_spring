@@ -29,29 +29,35 @@ function doMyInfo(){
 
 
 function update(){
-  console.log('updaate()');
+  console.log('update()');
 
   let name=document.querySelector('.name').value;     console.log(name);
   let pw=document.querySelector('.pw').value;         console.log(pw);
+  let Newpw=document.querySelector('.Newpw').value;         console.log(Newpw);
   let phone=document.querySelector('.phone').value;   console.log(phone);
 
+  let info = {  name : name ,
+                pw: pw ,
+                Newpw : Newpw,
+                phone : phone
+  }
+
   $.ajax({
-    method: "get",
+    async: false ,
+    method: "put",
     url: "/member/update" ,
-    data : { name : name,
-            pw:pw,
-            phone : phone
-     } , 
-     success : (result)=>{       // HTTP 응답받을 DATA
-      if( result ){
-          alert('수정처리 되었습니다'); location.href="/";
+    data:  JSON.stringify(info)  ,
+    contentType : "application/json" ,
+    success : r => {
         
-      }else{
-          alert('수정실패');
-          
-      }
-    }
-  
-  });
+        console.log(r);
+        if(r){alert('수정성공'); location.href="/member/mypage";}
+        else{alert('입력한 정보가 일치하지 않습니다.');}
+
+
+
+    } ,
+    error: e => {console.log(e);}
+  })
 
 }

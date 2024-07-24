@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import web.model.dao.MemberDao;
 import web.model.dto.MemberDto;
 
+import java.util.Map;
+
 @Service
 public class MemberService {
 
@@ -74,9 +76,28 @@ public class MemberService {
     }
 
     //7. 수정페이지
-    public  boolean update(MemberDto memberDto){
-        return  memberDao.update(memberDto);
+
+    public boolean update( Map<String , String> map ){
+        // 1. 현재 로그인된 회원번호 추출
+        MemberDto loginDto = mLoginCheck();
+        if( loginDto == null ) return false;
+        int loginNo = loginDto.getNo();
+        // 2. 로그인된 회원번호를 map 엔트리 추가
+        map.put( "no" , String.valueOf(loginNo) );
+        //map.put( "no" , loginNo+"" );
+        return memberDao.update( map );
     }
+
+
+
+//    public  boolean update(MemberDto memberDto){
+//        MemberDto loginDto =mLoginCheck();
+//        if (loginDto == null) return false;
+//        int loginNo =loginDto.getNo();
+//
+//        boolean result= memberDao.update(memberDto,loginNo);
+//        return  result;
+//    }
     //8. 삭제 페이지
     public  boolean delete(String  pwConfirm){
         //현재 탈퇴하는 회원의 로그인된 번호

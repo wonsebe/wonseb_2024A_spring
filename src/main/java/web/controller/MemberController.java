@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import web.model.dto.MemberDto;
 import web.service.MemberService;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/member")
 public class MemberController {
@@ -53,16 +55,22 @@ public class MemberController {
 
     //수정 페이지
     @PutMapping("/update")
-    public  boolean update(MemberDto memberDto){
-    return memberService.update(memberDto);
+
+    public boolean update(@RequestBody Map<String , String> map ){
+        // {pw=144, newPw=324234, name=유재석, phone=010-4444-4444}
+        System.out.println("map = " + map);
+        return memberService.update( map );
     }
+//    public  boolean update(@RequestBody MemberDto memberDto){
+//   // public  MemberDto update(@RequestBody Map<String , String> map){
+//        System.out.println("memberDto = " + memberDto);
+//    return memberService.update(memberDto);
+//    }
 
     //탈퇴 페이지
     @DeleteMapping("/leave")
     public  boolean  delete(String  pwConfirm){
         return  memberService.delete(pwConfirm);
-
-
     }
 
 
