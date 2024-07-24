@@ -20,7 +20,11 @@ public class BoardController {
     //글쓰기
 
     //글 전체 호출
+    @GetMapping("/call")
+    public ArrayList<BoardDto> all(){
+        return  boardService.all();
 
+    }
     //글 상세 호출
 
     //글 수정

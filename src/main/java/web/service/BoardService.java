@@ -18,7 +18,10 @@ public class BoardService {
     //글쓰기
 
     //글 전체 호출
+    public ArrayList<BoardDto> all(){
+        return  boardDao.all();
 
+    }
     //글 상세 호출
 
     //글 수정
