@@ -31,7 +31,7 @@ public class BoardDao extends Dao {
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
                 int bcno = rs.getInt("bcno");
-                long bcname = rs.getLong("bcname");
+                String bcname = rs.getString("bcname");
 
                 BoardDto boardDto = new BoardDto();
                 boardDto.setBcno(bcno);
