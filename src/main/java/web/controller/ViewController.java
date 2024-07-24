@@ -41,4 +41,9 @@ public class ViewController {
         return "/board/all.html";
     }
 
+    @GetMapping("board/write")
+    public String boardWrite(){
+        return "board/write.html";
+    }
+
 }
