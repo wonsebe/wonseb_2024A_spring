@@ -36,5 +36,9 @@ public class ViewController {
         return "/member/leave.html";
     }
 
+    @GetMapping("/board/all")
+    public String boardAllPrint(){
+        return "/board/all.html";
+    }
 
 }

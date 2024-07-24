@@ -9,8 +9,8 @@ import web.model.dao.MemberDao;
 @Service
 public class BoardService {
 
-    @Autowired
-    BoardDao boardDao;
+//    @Autowired
+//    BoardDao boardDao;
 
     //글쓰기
 
