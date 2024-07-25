@@ -6,6 +6,7 @@ import web.model.dto.BoardDto;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
@@ -13,26 +14,64 @@ import java.util.Random;
 public class BoardDao extends Dao {
 
 
-    //글쓰기
-    public boolean post(Map<String , String> map){
-        try{
-            String sql = "insert into board(btitle, bcontent, bcno,no) values(?,?,?,?)";
+    public boolean bWrite( BoardDto boardDto) {
+        System.out.println("BoardDao.bWrite");
+        System.out.println("boardDto = " + boardDto);
+        try {
+            String sql ="insert into board( bcno , btitle , bcontent , no , bfile ) " +
+                    " values( ? , ? , ? , ? , ? )";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1,map.get("btitle"));
-            ps.setString(2,map.get("bcontent"));
-            ps.setString(3,map.get("bcno"));
-            ps.setInt(4,Integer.parseInt(map.get("no")));
-
+            ps.setLong( 1, boardDto.getBcno() );
+            ps.setString( 2 , boardDto.getBtitle() );
+            ps.setString( 3 , boardDto.getBcontent() );
+            ps.setLong( 4 ,  boardDto.getNo() );
+            ps.setString( 5 , boardDto.getBfile() );
             int count = ps.executeUpdate();
-            if(count == 1){
-                return true;
-            }
-
-        }catch (Exception e){
-            System.out.println(e);
-        }
+            if( count == 1 )return true;
+        }catch (Exception e ){   System.out.println(e); }
         return false;
     }
+
+//    public boolean post(BoardDto boardDto){
+//        System.out.println("BoardDao.bWrite");
+//        System.out.println("boardDto = " + boardDto);
+//        try {
+//            String sql ="insert into board(bcno,btitle, bcontent, no, bfile) values(? ,? , ? ,? , ?)";
+//            PreparedStatement ps=conn.prepareStatement(sql);
+//            ps.setLong(1, boardDto.getBcno());
+//            ps.setString(2, boardDto.getBtitle());
+//            ps.setString(3, boardDto.getBcontent());
+//            ps.setLong(4,boardDto.getNo());
+//            ps.setString(5,boardDto.getBfile());
+//            int count = ps.executeUpdate();
+//            if (count ==1)return true;
+//        }catch (Exception e){
+//            System.out.println(e);
+//        }return false;
+//    }
+
+
+
+//    //글쓰기
+//    public boolean post(Map<String , String> map){
+//        try{
+//            String sql = "insert into board(btitle, bcontent, bcno,no) values(?,?,?,?)";
+//            PreparedStatement ps = conn.prepareStatement(sql);
+//            ps.setString(1,map.get("btitle"));
+//            ps.setString(2,map.get("bcontent"));
+//            ps.setString(3,map.get("bcno"));
+//            ps.setInt(4,Integer.parseInt(map.get("no")));
+//
+//            int count = ps.executeUpdate();
+//            if(count == 1){
+//                return true;
+//            }
+//
+//        }catch (Exception e){
+//            System.out.println(e);
+//        }
+//        return false;
+//    }
 
     //글 전체 호출
     public ArrayList<BoardDto> all(){
@@ -49,8 +88,8 @@ public class BoardDao extends Dao {
                 long bview = rs.getLong("bview");
 
                 BoardDto boardDto = new BoardDto();
-                boardDto.setBcno(bno);
-                boardDto.setBcname(btitle);
+                boardDto.setBno(bno);
+                boardDto.setBtitle(btitle);
                 boardDto.setId(id);
                 boardDto.setBdate(bdate);
                 boardDto.setBview(bview);
@@ -63,12 +102,73 @@ public class BoardDao extends Dao {
     }
     //글 상세 호출
 
+    public ArrayList<BoardDto>detailcall(){
+        ArrayList<BoardDto> list = new ArrayList<>();
+        try {
+            String sql="SELECT * FROM board WHERE bno = ?;";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+
+                String bcname = rs.getString("bcname");
+                int bno = rs.getInt("bno");
+                String btitle=rs.getString("btitle");
+                String bcontent=rs.getString("bcontent");
+                String id = rs.getString("id");
+                String bdate = rs.getString("bdate");
+                long bview = rs.getLong("bview");
+
+                BoardDto boardDto = new BoardDto();
+                boardDto.setBcname(bcname);
+                boardDto.setBno(bno);
+                boardDto.setBtitle(btitle);
+                boardDto.setBcontent(bcontent);
+                boardDto.setId(id);
+                boardDto.setBview(bview);
+                list.add(boardDto);
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return list;
+    }
 
     //글 수정
 
     //글 삭제
 
-    //카테고리 호출
+//    //카테고리 호출 :  강사님 코드
+//    public Map<String, String > category(){
+//        System.out.println("BoardDao.category");
+//        //list 컬렉션 선언 , map컬렉션(객체) 을 여러개 저장하기 위해 list 선언
+//        //-map 컬렉션 선언
+//        System.out.println("1번통과");
+//        Map<String ,String > map =new HashMap<>();
+//        System.out.println("2번통과");
+//        try {
+//            String sql ="select * from bcategory";
+//            System.out.println("3번통과");
+//            PreparedStatement ps =conn.prepareStatement(sql);
+//            ResultSet rs = ps.executeQuery();
+//            System.out.println("4번통과");
+//            while (rs.next()){
+//                //map 컬렉션 엔트리 추가
+//                    //엔트리 : 키: 값으로 구성된 객체 표현 (2개) 카테고리 번호, 카테고리 이름
+//                map.put("bcno" , String.valueOf(rs.getInt(1)) );
+//                map.put("bcname" , String.valueOf(rs.getString(2)) );
+//                //-map 컬렉션/객체를 리스트/객체에 담기
+//
+//                System.out.println(map);
+//            }
+//            System.out.println("5번통과");
+//        }catch (Exception e){
+//            System.out.println(e);
+//            System.out.println("6번통과");
+//        }
+//        return null;
+//    }
+
+    //우리가 짠 코드
     public ArrayList<BoardDto> category(){
         ArrayList<BoardDto> list = new ArrayList<>();
         try {

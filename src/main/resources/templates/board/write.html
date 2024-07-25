@@ -6,5 +6,32 @@
 </head>
 <body>
 
+    <div th:replace="~{ /header.html :: header }"></div>
+    <h3> 게시물 쓰기 </h3>
+
+    <form class="boardWriteForm">
+
+        <select name="bcno" id="category">
+            <option value="1">자유</option>
+            <option value="2">노하우</option>
+            <option value="3">판매</option>
+        </select>
+        
+       <div> 제목: <input id="title" type="text"name="btitle"  /> <br /></div>
+       <div>내용:<textarea id="content" rows="10"name="bcontent"></textarea><br /></div>
+        <div>첨부파일: <input type="file"name="uploadFile"/><br /></div>
+        <button onclick="doBoardWrite()" type="button"> 쓰기 </button>
+
+    
+      </form>
+
+    <!-- <form>
+        글쓰기 : <input class="나중에 정하세요" />
+        <button onclick="_write()" type="button"> 쓰기 </button>s
+      </form> -->
+
+    <script src="/js/board/write.js"></script>
+    <script src="/js/board/category.js"></script>
+    <div th:replace="~{ /footer.html :: footer }"></div>
 </body>
 </html>
