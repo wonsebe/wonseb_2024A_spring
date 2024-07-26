@@ -13,7 +13,7 @@ import java.util.Random;
 @Component
 public class BoardDao extends Dao {
 
-
+    //쓰기
     public boolean bWrite( BoardDto boardDto) {
         System.out.println("BoardDao.bWrite");
         System.out.println("boardDto = " + boardDto);
@@ -31,7 +31,7 @@ public class BoardDao extends Dao {
         }catch (Exception e ){   System.out.println(e); }
         return false;
     }
-
+//
 //    public boolean post(BoardDto boardDto){
 //        System.out.println("BoardDao.bWrite");
 //        System.out.println("boardDto = " + boardDto);
@@ -78,6 +78,7 @@ public class BoardDao extends Dao {
         ArrayList<BoardDto> list = new ArrayList<>();
         try {
             String sql="select *from board join member on board.no = member.no";
+            // ***** 다른 필드가 필요할 때는 join 을 사용한다. ***** //
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
@@ -102,40 +103,39 @@ public class BoardDao extends Dao {
     }
     //글 상세 호출
 
-    public ArrayList<BoardDto>detailcall(){
-        ArrayList<BoardDto> list = new ArrayList<>();
+    public BoardDto detailcall(int bno){
+        System.out.println("BoardDao.bFindBno");System.out.println("bno = " + bno);
         try {
-            String sql="SELECT * FROM board WHERE bno = ?;";
-            PreparedStatement ps = conn.prepareStatement(sql);
+            String sql = "select bc.bcno , bcname , bno  , btitle, bcontent  , id  ,bdate  , bview , bfile from board b inner join member m inner join bcategory bc on b.no = m.no and b.bcno= bc.bcno where b.bno=?;";
+            PreparedStatement ps =conn.prepareStatement(sql);
+            ps.setInt( 1 , bno );
             ResultSet rs = ps.executeQuery();
-            while (rs.next()){
-
-                String bcname = rs.getString("bcname");
-                int bno = rs.getInt("bno");
-                String btitle=rs.getString("btitle");
-                String bcontent=rs.getString("bcontent");
-                String id = rs.getString("id");
-                String bdate = rs.getString("bdate");
-                long bview = rs.getLong("bview");
-
-                BoardDto boardDto = new BoardDto();
-                boardDto.setBcname(bcname);
-                boardDto.setBno(bno);
-                boardDto.setBtitle(btitle);
-                boardDto.setBcontent(bcontent);
-                boardDto.setId(id);
-                boardDto.setBview(bview);
-                list.add(boardDto);
+            if(rs.next()){
+                BoardDto boardDto = BoardDto.builder()
+                .bcno(rs.getInt("bcno"))
+                .bno(rs.getInt("bno"))
+                 .bcname(rs.getString("bcname"))
+                .btitle(rs.getString("btitle"))
+                .bcontent(rs.getString("bcontent"))
+                .id(rs.getString("id"))
+                .bdate(rs.getString("bdate"))
+                .bview(rs.getInt("bview"))
+                 .bfile(rs.getString("bfile"))
+                .build();
+                return boardDto;
             }
         }catch (Exception e){
-            System.out.println(e);
+            System.out.println("e = " + e);
         }
-        return list;
+        return null;
     }
 
     //글 수정
 
     //글 삭제
+
+
+
 
 //    //카테고리 호출 :  강사님 코드
 //    public Map<String, String > category(){

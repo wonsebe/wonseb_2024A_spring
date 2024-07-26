@@ -9,43 +9,23 @@
     </head>
     <body>
       <div th:replace="~{ /header.html :: header }"></div>
-      <h3> 게시물 상세 페이지 </h3>
-      <div  class="detailBox">
-        
+    <h3> 게시물 상세 출력 페이지 </h3>
+    <div>
+        <div class="bcName"> ( 카테고리명 ) </div>
+        <div class="etcBox"> (작성자) , ( 조회수 ) , ( 작성일 ) </div>
+        <div class="bTitle"> 안녕하세요1 (제목구역) </div>
+        <div class="bContent"> 내용 (내용구역) </div>
+        <div class="bFile"> 첨부파일( 첨부파일구역 )</div>
+        <div class="btnBox">
 
-        <ul class="detail">
-          <li class="god">
-            카테고리명
-          </li>
-          <li>
-            게시물번호
-          </li>
-          <li class="god">
-            제목
-          </li>
-          <li class="god">
-            내용
-          </li>
-          <li class="god">
-            작성자 id
-          </li>
-          <li class="god">
-            작성일
-          </li>
-          <li class="god">
-            조회수
-          </li>
-        </ul>
-      </div>
-      
-
-      <button type="button" onclick="location.href='/board/update?bno=3'">수정하러가기</button>
+        </div>
+    </div>
       
     
       <!-- 부트스트랩 JS -->
      
       <script src="/js/board/detailcall.js"></script>
-      <script src="/js/board/category.js"></script>
+      <!-- <script src="/js/board/category.js"></script> -->
       <div th:replace="~{ /footer.html :: footer }"></div>
     </body>
     </html>

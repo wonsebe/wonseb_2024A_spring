@@ -1,6 +1,8 @@
 
 console.log('write.js');
 
+
+
 // function _write(){ //첨부파일을 전송하지 않는 일반 JSON  타입의 통신
 
 //     let title = document.querySelector('#title').value;

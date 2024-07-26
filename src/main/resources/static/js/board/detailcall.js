@@ -1,52 +1,31 @@
-// console.log("detailcall.js");
+console.log("detailcall.js");
+//URL 상의 쿼리스트링 매개변수를 JS 에서 꺼내는 방법
+  // JAVA STRING  에서 HTML URL 상의 쿼리스트링 매
 
-// let urlParams = new URL(location.href).searchParams;
-// let Bno = urlParams.get("bno") //글번호
+let bno=new URL(location.href).searchParams.get('bno');
+console.log(bno);
 
-// detailcall();
-// function detailcall(){
-// let detailBox=document.querySelector(".detailBox");
-// let html='안녕 여기다가 상세하게 출력할거야';
-// console.log(html);
+detailcall(bno);
+function detailcall(bno){
+    let board={}
 
-//      $.ajax({
-//         method : 'get',
-//         url : "/board/detail",
-//         data:{bno:Bno},
-//         success : function response (result){console.log(result)
-//             result.forEach(r => {
-//                 html += `
+     $.ajax({
+        async:false, //false 동기화 vs true 동기화 (innerHTML 후 에 응답 온다.)
+        method : "get",
+        url : "/board/detail",
+        data: {bno : bno} ,
+        success : r => { console.log(r); board = r} // 응답 받은 데이터을 ajax 밖 변수에 대입
+      }) // AJAX END
+      document.querySelector('.bcName').innerHTML = `${ board.bcname }`;
+      document.querySelector('.etcBox').innerHTML = `${ board.id } / ${ board.bview } / ${ board.bdate }`;
+      document.querySelector('.bTitle').innerHTML = `${ board.btitle }`;
+      document.querySelector('.bContent').innerHTML = `${ board.bcontent }`;
+      document.querySelector('.bFile').innerHTML = `${ board.bfile } <a href="/file/download?filename=${ board.bfile }">다운로드</a>`;
+      document.querySelector('.btnBox').innerHTML =
+              `
+              <button type="button" onclick="location.href='/board/update?bno=${bno}'">수정</button>
+              <button type="button" onclick="doBoardDelete(${bno})">삭제</button>
+              `;
+          
 
-
-//                 <div  class="detailBox">
-//                   <ul class="detail">
-//                     <li class="god">
-//                         ${r.bcname} 
-//                       </li>
-//                       <li>
-//                       ${r.bno}
-//                       </li>
-//                       <li class="god">
-//                       ${r.btitle}
-//                       </li>
-//                       <li class="god">
-//                       ${r.bcontent}
-//                       </li>
-//                       <li class="god">
-//                       ${r.id}
-//                       </li>
-//                       <li class="god">
-//                       ${r.bdate}
-//                     </li>
-//                     <li class="god">
-//                       ${r.bview} 
-//                     </li>
-//                   </ul>
-//               </div>
-//               <button type="button" onclick="location.href='/board/update?bno=3'">수정하러가기</button>`
-              
-//             });
-//             detailBox.innerHTML = html;
-//         }
-//     });
-// }
+  }

@@ -95,9 +95,8 @@ public class BoardService {
 
     }
     //글 상세 호출
-    public ArrayList<BoardDto> detailcall(){
-        return  boardDao.detailcall();
-
+    public BoardDto detailcall(int bno){
+        return  boardDao.detailcall(bno);
     }
 
     //글 수정

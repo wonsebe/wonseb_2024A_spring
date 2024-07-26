@@ -43,9 +43,9 @@ public class BoardController {
 
     }
     //글 상세 호출
-    @GetMapping("/board/detail")
-    public ArrayList<BoardDto>detailcall(){
-        return  boardService.detailcall();
+    @GetMapping("/detail")
+    public BoardDto detailcall(int bno){
+        return  boardService.detailcall(bno);
     }
     //글 수정
 

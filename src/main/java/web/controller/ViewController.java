@@ -45,7 +45,7 @@ public class ViewController {
     public String boardWrite(){
         return "/board/write.html";
     }
-    @GetMapping("/board/detail")
+    @GetMapping("/board/tail")
     public String boardDetail(){
         return "/board/detail.html";
     }
