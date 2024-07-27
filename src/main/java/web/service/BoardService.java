@@ -22,6 +22,7 @@ public class BoardService {
     @Autowired
     FileServise fileServise;
 
+
     // 2.
     public boolean bWrite( BoardDto boardDto) {
         // 글자 작성을 요청한 회원의 로그인회원번호 구하기
@@ -107,5 +108,19 @@ public class BoardService {
     public ArrayList<BoardDto> category(){
         System.out.println("BoardService.category");
         return boardDao.category();
+    }
+
+    public boolean Bupdate(BoardDto boardDto) {
+        System.out.println("BoardService.Bupdate");
+        Object object = memberService.mLoginCheck();
+        if( object == null ) return  false; // 비로그인시 함수 강제종료/취소
+        // 2. 세션내 회원번호 속성 호출
+        MemberDto memberDto = (MemberDto)object;
+        // 3. 속성 호출
+        int loginNo = memberDto.getNo();
+        // 4. BoardDto 담아주기
+        boardDto.setNo( loginNo );
+        return boardDao.Bupdate(boardDto);
+
     }
 }
