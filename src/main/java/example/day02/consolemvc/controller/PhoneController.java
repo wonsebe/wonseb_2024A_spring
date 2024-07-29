@@ -12,6 +12,10 @@ public class PhoneController {
     private PhoneController(){}
     public static PhoneController getInstance(){return phoneCont;}
 
+
+
+
+
     // 1.
     public boolean postPhone(PhoneDto phoneDto){
         return PhoneDao.getInstance().postPohone(phoneDto);
