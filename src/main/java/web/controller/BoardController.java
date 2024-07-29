@@ -48,7 +48,10 @@ public class BoardController {
         return  boardService.detailcall(bno);
     }
     //글 수정
-
+    @PutMapping("/load")
+    public boolean Bupdate(BoardDto boardDto){
+        return boardService.Bupdate(boardDto);
+    }
     //글 삭제
 
     //카테고리 호출

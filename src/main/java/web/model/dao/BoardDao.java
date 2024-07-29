@@ -131,6 +131,21 @@ public class BoardDao extends Dao {
     }
 
     //글 수정
+    public boolean Bupdate(BoardDto boardDto){
+        try {
+            String sql= " update board set  btitle= ? , bcontent= ? , bcno= ?  where bno =?" ;
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1,boardDto.getBtitle());
+            ps.setString(2,boardDto.getBcontent());
+            ps.setLong(3,boardDto.getBcno());
+            ps.setLong(4,boardDto.getNo());
+            int count = ps.executeUpdate();
+            if( count == 1 )return true;
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return false;
+    }
 
     //글 삭제
 
