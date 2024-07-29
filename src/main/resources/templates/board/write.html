@@ -3,7 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    
+
+    <!-- 해당 페이지에서만 사용할 CSS-->
+     <!--1. 썸머노트 CSS-->
+     <!-- include summernote css/js -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.css" />
+     <link href="/css/write.css" rel="stylesheet" />
+     
+
 </head>
+
 <body>
 
     <div th:replace="~{ /header.html :: header }"></div>
@@ -18,7 +28,7 @@
         </select>
         
        <div> 제목: <input id="title" type="text"name="btitle"  /> <br /></div>
-       <div>내용:<textarea id="content" rows="10"name="bcontent"></textarea><br /></div>
+       <div>내용:<textarea id="summernote" rows="10"name="bcontent"></textarea><br /></div>
         <div>첨부파일: <input type="file"name="uploadFile"/><br /></div>
         <button onclick="doBoardWrite()" type="button"> 쓰기 </button>
 
@@ -29,6 +39,10 @@
         글쓰기 : <input class="나중에 정하세요" />
         <button onclick="_write()" type="button"> 쓰기 </button>s
       </form> -->
+      <!--썸머노트 jS-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.js" ></script>
+      <!--썸머노트 한국어-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/lang/summernote-ko-KR.min.js" ></script>
 
     <script src="/js/board/write.js"></script>
     <script src="/js/board/category.js"></script>

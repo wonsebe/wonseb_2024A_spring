@@ -101,15 +101,6 @@ public class BoardService {
     }
 
     //글 수정
-
-    //글 삭제
-
-    //카테고리 호출
-    public ArrayList<BoardDto> category(){
-        System.out.println("BoardService.category");
-        return boardDao.category();
-    }
-
     public boolean Bupdate(BoardDto boardDto) {
         System.out.println("BoardService.Bupdate");
         Object object = memberService.mLoginCheck();
@@ -123,4 +114,29 @@ public class BoardService {
         return boardDao.Bupdate(boardDto);
 
     }
+
+    //글 삭제
+//    public boolean Bdelete(BoardDto boardDto){
+//        System.out.println("BoardService.Bdelete");
+//        System.out.println("boardDto = " + boardDto);
+//        Object object = memberService.mLoginCheck();
+//        if( object == null ) return  false; // 비로그인시 함수 강제종료/취소
+//        // 2. 세션내 회원번호 속성 호출
+//        MemberDto memberDto = (MemberDto)object;
+//        // 3. 속성 호출
+//        int loginNo = memberDto.getNo();
+//        // 4. BoardDto 담아주기
+//        boardDto.setNo( loginNo );
+//        return boardDao.Bdelete(boardDto);
+//
+//    }
+
+
+    //카테고리 호출
+    public ArrayList<BoardDto> category(){
+        System.out.println("BoardService.category");
+        return boardDao.category();
+    }
+
+
 }

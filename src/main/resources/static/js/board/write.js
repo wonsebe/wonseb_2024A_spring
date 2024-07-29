@@ -41,13 +41,29 @@ console.log('write.js');
             console.log(boardWriteFormData);
             //3. ajax 통신
             $.ajax({
+                async:false ,
                 method: "post",
                 url: "/board/write",
                 data: boardWriteFormData ,
                 contentType: false , processData : false,
-                success: r => {console.log(r);},
+                success: r => {console.log(r);
+                    location.href="/board/all";
+                },
                 error: e => {console.log(e);}
             });
 
     }
 
+    //3. 썸머노트 실행
+    $(document).ready(function() {
+        
+        //썸머노트 옵션
+        let option ={
+            height : 500 ,
+            lang :'ko-KR'//도움말이 한글로 표기
+        }
+
+
+
+        $('#summernote').summernote(option);
+      });

@@ -53,7 +53,10 @@ public class BoardController {
         return boardService.Bupdate(boardDto);
     }
     //글 삭제
-
+//    @DeleteMapping("/delete")
+//    public boolean Bdelete(BoardDto boardDto){
+//        return boardService.Bdelete(boardDto);
+//    }
     //카테고리 호출
     @GetMapping("/category")
     public ArrayList<BoardDto> bCategory(){

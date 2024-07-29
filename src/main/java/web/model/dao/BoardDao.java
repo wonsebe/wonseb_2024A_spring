@@ -148,6 +148,15 @@ public class BoardDao extends Dao {
     }
 
     //글 삭제
+//    public boolean Bdelete(BoardDto boardDto){
+//        try {
+//            String sql ="delete from board where bno =?";
+//            PreparedStatement ps = conn.prepareStatement(sql);
+//            ps.setInt(2,boardDto.getBno());
+//        }catch (Exception e){
+//            System.out.println(e);
+//        }
+//    }
 
 
 
