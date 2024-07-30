@@ -3,6 +3,7 @@ package web.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import web.model.dto.BoardDto;
+import web.model.dto.BoardPageDto;
 import web.service.BoardService;
 import web.service.MemberService;
 
@@ -38,8 +39,10 @@ public class BoardController {
 
     //글 전체 호출
     @GetMapping("/call")
-    public ArrayList<BoardDto> all(){
-        return  boardService.all();
+    public BoardPageDto all(BoardPageDto pageDto){
+        //페이징 처리 에서 사용할 현재 페이지 번호
+        //2. bcno
+        return  boardService.all(pageDto);
 
     }
     //글 상세 호출

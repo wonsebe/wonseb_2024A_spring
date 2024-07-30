@@ -17,6 +17,8 @@
 <body>
 
     <div th:replace="~{ /header.html :: header }"></div>
+    <div class="container">
+   
     <h3> 게시물 쓰기 </h3>
 
     <form class="boardWriteForm">
@@ -26,6 +28,7 @@
             <option value="2">노하우</option>
             <option value="3">판매</option>
         </select>
+      </div>
         
        <div> 제목: <input id="title" type="text"name="btitle"  /> <br /></div>
        <div>내용:<textarea id="summernote" rows="10"name="bcontent"></textarea><br /></div>

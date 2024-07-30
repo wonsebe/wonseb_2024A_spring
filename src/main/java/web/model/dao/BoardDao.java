@@ -5,10 +5,7 @@ import web.model.dto.BoardDto;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 @Component
 public class BoardDao extends Dao {
@@ -72,33 +69,67 @@ public class BoardDao extends Dao {
 //        }
 //        return false;
 //    }
-
-    //글 전체 호출
-    public ArrayList<BoardDto> all(){
-        ArrayList<BoardDto> list = new ArrayList<>();
+    //****** 전체 게시물 수 반환 처리 , 조건추가1) 카테고리
+    public int getTotalBoardSize(int bcno){
         try {
-            String sql="select *from board join member on board.no = member.no";
-            // ***** 다른 필드가 필요할 때는 join 을 사용한다. ***** //
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()){
-                int bno = rs.getInt("bno");
-                String btitle = rs.getString("btitle");
-                String id = rs.getString("id");
-                String bdate = rs.getString("bdate");
-                long bview = rs.getLong("bview");
+            String sql ="select count(*) as 총게시물수 from board";
 
-                BoardDto boardDto = new BoardDto();
-                boardDto.setBno(bno);
-                boardDto.setBtitle(btitle);
-                boardDto.setId(id);
-                boardDto.setBdate(bdate);
-                boardDto.setBview(bview);
-                list.add(boardDto);
+            //카테고리가 존재하면 , 0: 카테고리없다는 의미. 1 이상: 카테고리의 pk 번호
+            if (bcno >0){
+                sql += " where bcno = " +bcno;
             }
+            System.out.println(" sql : "+sql);
+                //1. 전체보기 : select count(*) as 총게시물수 from board
+                //2. 카테고리 보기 : select count(*) as 총게시물수 from board where bcno = 숫자
+
+
+
+            PreparedStatement ps=conn.prepareStatement(sql);
+            ResultSet rs=ps.executeQuery();
+            if (rs.next()){
+                return rs.getInt(1); //총 게시물 수
+            }
+
         }catch (Exception e){
             System.out.println(e);
-        }
+        }return 0;
+
+    }
+    //글 전체 호출
+    public List<BoardDto> all(int startLow , int pageBoardSize ,int bcno){
+        List<BoardDto> list = new ArrayList<>();
+        try{ String sql = "select * " +
+                    //1. 조회
+                "  from board inner join member " +
+                    //2. 조인 테이블
+                "  on board.no = member.no " ;
+                    //3. 조인 조건
+
+                     //4. 일반조건
+                        //- 전체보기 이면 where 절 생략 , bcno =0 이면
+                        // -카테고리별 이면 whre 절 추가 , bcno >= 1 이상
+                if (bcno>=1){ sql += "  where bcno= "+ bcno; }
+                sql += "  order by board.bno desc " ;
+                    //5. 정렬 , 내림차순
+                sql += "  limit ? , ? ";
+                    //6. 레코드 제한 , 페이징처리
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt( 1 , startLow );
+            ps.setInt( 2 , pageBoardSize );
+            ResultSet rs = ps.executeQuery();
+            while ( rs.next() ){
+                // 레코드 를 하나씩 조회해서 Dto vs Map 컬렉션
+                BoardDto boardDto = BoardDto.builder()
+                        .bno( rs.getInt("bno") )
+                        .btitle( rs.getString("btitle") )
+                        .id( rs.getString("id") )
+                        .bdate( rs.getString("bdate") )
+                        .bview( rs.getInt("bview") )
+                        .build();
+                list.add( boardDto );
+            }
+        }catch (Exception e ){  System.out.println(e); }
         return list;
     }
     //글 상세 호출
