@@ -20,12 +20,20 @@ function detailcall(bno){
       document.querySelector('.etcBox').innerHTML = `${ board.id } / ${ board.bview } / ${ board.bdate }`;
       document.querySelector('.bTitle').innerHTML = `${ board.btitle }`;
       document.querySelector('.bContent').innerHTML = `${ board.bcontent }`;
-      document.querySelector('.bFile').innerHTML = `${ board.bfile } <a href="/file/download?filename=${ board.bfile }">다운로드</a>`;
-      document.querySelector('.btnBox').innerHTML =
-              `
-              <button type="button" onclick="location.href='/board/update?bno=${bno}'">수정</button>
-              <button type="button" onclick="doBoardDelete(${bno})">삭제</button>
-              `;
+     
+    
+        if(board.bfile == null){
+          document.querySelector('.bFile').innerHTML = '';
+        }else{
+          document.querySelector('.bFile').innerHTML =`${board.bfile.split('_')[1]}<a href="/file/download?filename=${ board.bfile }"> 다운로드 </a>`;
+         
+        }
+
+        document.querySelector('.btnBox').innerHTML =
+        `
+        <button type="button" onclick="location.href='/board/update?bno=${bno}'">수정</button>
+        <button type="button" onclick="doBoardDelete(${bno})">삭제</button>
+        `;
           
 
   }

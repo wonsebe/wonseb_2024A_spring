@@ -40,8 +40,10 @@ public class BoardController {
     //글 전체 호출
     @GetMapping("/call")
     public BoardPageDto all(BoardPageDto pageDto){
-        //페이징 처리 에서 사용할 현재 페이지 번호
-        //2. bcno
+        //page : 페이징 처리 에서 사용할 현재 페이지 번호
+        //2. bcno : 현재 선택된 카테고리 번호
+        //3.searchKey :검색 조회시 사용되는 필드명
+        //4.searchKeyword: 검색 조회시 사용되는 필드의값
         return  boardService.all(pageDto);
 
     }
@@ -65,5 +67,6 @@ public class BoardController {
     public ArrayList<BoardDto> bCategory(){
         return boardService.category();
     }
+
 
 }

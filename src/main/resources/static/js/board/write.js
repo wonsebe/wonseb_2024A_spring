@@ -1,7 +1,18 @@
 
 console.log('write.js');
 
-
+$.ajax({
+    async: false ,
+    method : 'get' ,
+    url : '/member/login/check' ,
+    success: r => {
+        if(r ==''){
+        alert('로그인된 회원만 가능합니다');
+        location.href='/member/login' ;
+        //location.href="/board/login/check"
+    }
+    }
+})
 
 // function _write(){ //첨부파일을 전송하지 않는 일반 JSON  타입의 통신
 
@@ -30,7 +41,6 @@ console.log('write.js');
 //             } // success method end
 //     })
 // }
-
     //2. 게시물 쓰기(첨부파일을 전송하는 대용량 form 타입의 통신)
     function doBoardWrite(){
             //1. form 가져오기 ,form 안에 있는 html 모두 한번에 가져오기
@@ -47,7 +57,6 @@ console.log('write.js');
                 data: boardWriteFormData ,
                 contentType: false , processData : false,
                 success: r => {console.log(r);
-                    location.href="/board/all";
                 },
                 error: e => {console.log(e);}
             });

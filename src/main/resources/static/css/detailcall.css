@@ -1,0 +1,16 @@
+
+.viewBox{
+    margin-top: 20px;
+    padding: 10px;
+}
+.viewBox > .bTitle{
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+
+.viewBox > .bContent{
+    min-height: 500px; /*글이 없을 때도 최소높이 고정 */
+    border: 1px solid grey;
+}
+

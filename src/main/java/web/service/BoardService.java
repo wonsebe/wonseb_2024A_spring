@@ -103,8 +103,9 @@ public class BoardService {
         //2. 페이지당 게시물을 출력할 시작 레코드 번호
         int startRow = ( pageDto.getPage() -1)* pageBoardSize ;
 
-        //4. 전체 게시물 수 : 조건 추가 : 카테고리번호 별
-        int totalBoardSize = boardDao.getTotalBoardSize(pageDto.getBcno());
+        //4. 전체 게시물 수 : 조건 추가 : 카테고리번호 별 , 검색 조건
+        int totalBoardSize = boardDao.getTotalBoardSize(pageDto.getBcno(), pageDto.getSearchKey() , pageDto.getSearchKeyword());
+
 
         //3. total :전체 페이지 수  구하기
             //총 페이지수 계산식: 전체 게시물수 / 페이지당게시물수 , 단  나머지가 존재하면 페이지수 1 더한다.
@@ -120,8 +121,8 @@ public class BoardService {
             //만일 끝 번호가 마지막페이지 보다 커질 수 없다.
             if (endBtn >= totalPage) endBtn = totalPage;
 
-        //게시물 정보 조회 : 조건추가1) 페이징처리 , 조건추가2)
-        List<BoardDto>data = boardDao.all(startRow , pageBoardSize, pageDto.getBcno());
+        //6.게시물 정보 조회 : 조건추가1) 페이징처리 , 조건추가2)
+        List<BoardDto>data = boardDao.all(startRow , pageBoardSize, pageDto.getBcno(), pageDto.getSearchKey() , pageDto.getSearchKeyword());
 
         //반환 객체 구성
         BoardPageDto boardPageDto = BoardPageDto.builder()
@@ -137,6 +138,8 @@ public class BoardService {
     }
     //글 상세 호출
     public BoardDto detailcall(int bno){
+        //조회수 증가 처리
+        boardDao.viewIncrease(bno);
         return  boardDao.detailcall(bno);
     }
 
