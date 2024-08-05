@@ -37,3 +37,75 @@ function detailcall(bno){
           
 
   }
+
+
+  //2. 댓글 쓰기
+  function onReplyWrite(){
+    console.log('onReplyWrite()');
+    let brcontent= document.querySelector('.brcontent').value;
+    // let bno= bno; //현재 보고있는 게시물 번호 
+    // console.log(bno);
+    let info ={brindex : 0 ,
+                brcontent:brcontent,
+                bno: bno //현재 보고 있는 게시물 번호
+
+}
+    // let html ='';
+    console.log('html');
+    $.ajax({
+      async: false ,
+      method: 'post' , 
+      url: "/board/reply/write" ,
+      data: JSON.stringify(info) ,
+      contentType: "application/json",
+      success: r =>{ console.log(r);
+        if(r == true){
+          alert('댓글 쓰기 성공');
+          replyPrint();
+        }else{
+          alert('댓글 쓰기 실패');
+        }
+
+
+      }//s e
+
+
+
+
+
+    })//a e
+
+  }//f e
+
+  //댓글출력
+  replyPrint()
+  function replyPrint(){
+    let replyPrintBox = document.querySelector('.replyPrintBox')
+    let html ='';
+    console.log('html');    
+    $.ajax({
+      method: 'get' ,
+      url: "/board/reply/print" ,
+      data: {bno: bno} ,
+      success: r => {console.log('나왔지?'); console.log(r);
+        r.forEach(r =>{
+             html += ` <div>${r.name} </div>
+                      <div>${r.brdate}</div>
+                      <div>${r.brcontent}</div>`
+                      
+        })
+        replyPrintBox.innerHTML=html;
+      }
+
+
+
+
+
+
+
+
+
+    })
+    
+
+  }

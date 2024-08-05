@@ -142,6 +142,28 @@ public class BoardService {
         boardDao.viewIncrease(bno);
         return  boardDao.detailcall(bno);
     }
+    //게시물 댓글 기능 처리
+    public boolean bReplyWrite( Map<String , String  > map){
+        //작성자 (no) 는 별도의 클라이언트로 부터 입력받는 구조 아니다.
+            //로그인회원제 댓글 가정하에
+            //왜? 로그인 정보는 세션 객체에 저장하는지?
+        Object object = memberService.mLoginCheck();
+            //왜? object 타입인지?
+        if (object == null){return false;}
+        MemberDto loginDto=(MemberDto) object; //타입변환
+        int no = loginDto.getNo(); //getNo 안에 no 를 꺼내기
+
+        map.put("no" , String.valueOf(no)) ; //왜?? String.valueOf()?? String.valueOf(no)에 no 저장
+
+        // ?? 왜 map
+        return boardDao.bReplyWrite(map); // 서비스에서 주로 뭘 받을지 넘겨주고 처리하는 기능을 수행한다음 , dao 로 넘겨서 sql 처리를 해야하기 때문
+
+
+    }
+    public List<Map <String , String > > bReplyPrint (int bno ){
+        return boardDao.bReplyPrint(bno);
+    }
+
 
     //글 수정
     public boolean Bupdate(BoardDto boardDto) {

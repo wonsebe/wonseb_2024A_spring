@@ -197,6 +197,55 @@ public class BoardDao extends Dao {
 
     }
 
+    //게시물 댓글 기능 처리
+    public  boolean bReplyWrite ( Map<String , String  > map){
+       try {
+           String sql ="insert into breply(brindex, brcontent , no , bno) values(? ,? ,? ,? )";
+           PreparedStatement ps = conn.prepareStatement(sql);
+           ps.setInt(1, Integer.parseInt(map.get("brindex")));
+           ps.setString(2, map.get("brcontent"));
+           ps.setLong(3, Integer.parseInt(map.get("no")));
+           ps.setLong(4, Integer.parseInt(map.get("bno")));
+           //integer.parseInt 는 왜 하는지 ..?
+
+           int count =ps.executeUpdate();
+           if (count ==1){
+               return true;
+           }
+       }catch (Exception e){
+           System.out.println("e = " + e);
+       }
+        return  false;
+    }
+
+    public List<Map<String, String>> bReplyPrint (int bno ){
+        try {
+            List<Map<String, String>> list = new ArrayList<>();
+            String sql= "select *from breply inner join member on breply.no = member.no where bno= ?";
+            PreparedStatement ps=conn.prepareStatement(sql);
+            ps.setInt(1,bno);
+            ResultSet rs= ps.executeQuery();
+            while( rs.next() ){
+                // ==================== 1. Map 활용 ============= //
+                // - map 컬렉션/객체 선언
+                Map<String,String> map = new HashMap<>();
+                // - map 컬렉션/객체 엔트리 2개 추가 , 카테고리번호 , 카테고리이름
+                map.put( "brno" ,  String.valueOf( rs.getInt( "brno" )  ) );
+                map.put( "brindex" ,  String.valueOf( rs.getInt( "brindex" )  ) );
+                map.put( "brcontent" ,  String.valueOf( rs.getString( "brcontent" )  ) );
+                map.put( "brdate" ,  String.valueOf( rs.getString( "brdate" )  ) );
+                map.put( "name" ,  String.valueOf( rs.getString( "name" )  ) );
+                map.put( "bno" ,  String.valueOf( rs.getInt( "bno" )  ) );
+                // - map 컬렉션/객체를 리스트/객체에 담기
+                list.add( map );
+
+            }return list;
+        }catch (Exception e){
+            System.out.println("e = " + e);
+        }
+        return null;
+    }
+
     //글 수정
     public boolean Bupdate(BoardDto boardDto){
         try {

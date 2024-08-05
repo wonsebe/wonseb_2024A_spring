@@ -8,6 +8,7 @@ import web.service.BoardService;
 import web.service.MemberService;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -51,6 +52,20 @@ public class BoardController {
     @GetMapping("/detail")
     public BoardDto detailcall(int bno){
         return  boardService.detailcall(bno);
+    }
+
+    //게시물의 댓글 쓰기 (기능)  처리
+    @PostMapping("/reply/write") //왜 포스트 매핑 쓰는지 쓰기 - 글쓰기(등록 ) 등 입력값이 있는 것은 POST 를 주로 씀.
+    public boolean bReplyWrite(@RequestBody Map<String , String  > map){
+        System.out.println("map = " + map);
+        System.out.println("BoardController.bReplyWrite");
+            // ?? 왜 map
+            return boardService.bReplyWrite(map); // 서비스에서 주로 뭘 받을지 넘겨주고 처리하는 기능을 수행한다음 , dao 로 넘겨서 sql 처리를 해야하기 때문
+
+    }
+    @GetMapping ("/reply/print")
+    public List<Map<String , String  >> bReplyPrint (int bno ){
+        return  boardService.bReplyPrint(bno);
     }
     //글 수정
     @PutMapping("/load")
